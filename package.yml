@@ -1,0 +1,6 @@
+depends:
+    - serializer
+    - serial-datagram
+
+source:
+    - can_frame_cmp.c
