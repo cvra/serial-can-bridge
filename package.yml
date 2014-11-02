@@ -1,6 +1,10 @@
 depends:
+    - test-runner
     - serializer
     - serial-datagram
 
 source:
     - can_frame_cmp.c
+
+tests:
+    - tests/can_frame_tests.cpp
