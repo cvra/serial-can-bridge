@@ -1,4 +1,33 @@
 # Serial to CAN Bridge
 
-This module allows sending and receiving CAN frames over a serial connection.
+Send and receive CAN frames over a serial connection.
+
+Data is packed using the serial-datagram module.
+
+## Commands
+Commands are encoded with MessagePack.
+
+### PC -> MCU
+
+1. Command: type u8
+2. followed by an argument
+
+Commands | Argument              | Explanation
+-------- | --------------------- | --------------
+0x00     | MessagePack CAN frame | send CAN frame
+0x01     | ID filter list        | set ID filter
+
+### MCU -> PC
+
+The MCU just forwards every CAN frame it receives encoded as described below.
+
+### Message Pack CAN Frame
+
+CAN frames are encoded as following:
+
+    | Type | Explanation
+--- | ---- | -----------------------------------
+1.  | bool | extended frame flag
+2.  | u32  | CAN ID (11bit or 28bit)
+3.  | bin8 | CAN frame data, length: 1 - 8 bytes
 
