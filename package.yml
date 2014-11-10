@@ -5,6 +5,7 @@ depends:
 
 source:
     - can_frame_cmp.c
+    - serial_can_bridge.c
 
 tests:
     - tests/can_frame_tests.cpp
