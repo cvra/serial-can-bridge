@@ -10,12 +10,12 @@ bool can_frame_cmp_write(cmp_ctx_t *out, bool ext, uint32_t id, const void *data
         return false;
     }
 
-    success = cmp_write_u32(out, id);
+    success = cmp_write_uint(out, id);
     if (!success) {
         return false;
     }
 
-    success = cmp_write_bin8(out, data, len);
+    success = cmp_write_bin(out, data, len);
 
     return success;
 }
@@ -23,22 +23,19 @@ bool can_frame_cmp_write(cmp_ctx_t *out, bool ext, uint32_t id, const void *data
 bool can_frame_cmp_read(cmp_ctx_t *in, bool *ext, uint32_t *id, void *data, uint8_t *len)
 {
     bool success;
-    uint32_t length;
 
     success = cmp_read_bool(in, ext);
     if (!success) {
         return false;
     }
 
-    success = cmp_read_u32(in, id);
+    success = cmp_read_uint(in, id);
     if (!success) {
         return false;
     }
 
+    uint32_t length = 8;    // read max 8 bytes
     success = cmp_read_bin(in, data, &length);
-    if (length > 8) {
-        return false;
-    }
     *len = length;
 
     return success;
