@@ -9,13 +9,13 @@ Commands are encoded with MessagePack.
 
 ### PC -> MCU
 
-1. Command: type u8
+1. Command: uint
 2. followed by an argument
 
 Commands | Argument              | Explanation
--------- | --------------------- | --------------
+-------- | --------------------- | ------------------------------
 0x00     | MessagePack CAN frame | send CAN frame
-0x01     | ID filter list        | set ID filter
+0x01     | CAN ID filter list    | selectively receive CAN frames
 
 ### MCU -> PC
 
@@ -28,6 +28,9 @@ CAN frames are encoded as following:
     | Type | Explanation
 --- | ---- | -----------------------------------
 1.  | bool | extended frame flag
-2.  | u32  | CAN ID (11bit or 28bit)
-3.  | bin8 | CAN frame data, length: 1 - 8 bytes
+2.  | uint | CAN ID (11bit or 28bit)
+3.  | bin  | CAN frame data, length: 1 - 8 bytes
 
+### Message Pack CAN ID Filter List
+
+todo
