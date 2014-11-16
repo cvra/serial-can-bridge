@@ -26,14 +26,14 @@ bool can_send_cmp_frame(cmp_ctx_t *ctx)
 
 void serial_datagram_cb(const void *data, size_t len)
 {
-    uint8_t cmd;
+    uint32_t cmd;
     serializer_t ser;
     cmp_ctx_t ctx;
     serializer_init(&ser, (char *)data, len);
     serializer_cmp_ctx_factory(&ctx, &ser);
 
     /* read command */
-    cmp_read_u8(&ctx, &cmd);
+    cmp_read_uint(&ctx, &cmd);
     switch (cmd) {
     case CMD_CAN_FRAME:
         if (!can_send_cmp_frame(&ctx)) {
@@ -91,10 +91,14 @@ void serial_tx_main(void *arg)
         /* encode with MessagePack */
         serializer_init(&ser, outbuf, sizeof(outbuf));
         serializer_cmp_ctx_factory(&ctx, &ser);
-        can_frame_cmp_write(&ctx, ext, id, data, len);
 
+        if (!can_frame_cmp_write(&ctx, ext, id, data, len)) {
+            continue;
+        }
+
+        size_t outlen = serializer_written_bytes_count(&ser);
         /* send within a serial datagram */
-        serial_datagram_send(outbuf, len, serial_interface_write, arg);
+        serial_datagram_send(outbuf, outlen, serial_interface_write, arg);
     }
 
 }
