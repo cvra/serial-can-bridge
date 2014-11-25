@@ -9,3 +9,5 @@ source:
 
 tests:
     - tests/can_frame_tests.cpp
+    - tests/bridge_test.cpp
+    - mock/can_interface_mock.c
