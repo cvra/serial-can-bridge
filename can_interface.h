@@ -8,9 +8,7 @@
 extern "C" {
 #endif
 
-void can_interface_send(bool ext, uint32_t id, void *data, uint8_t len);
-
-void can_interface_receive(bool *ext, uint32_t *id, void *data, uint8_t *len);
+void can_interface_send(bool ext, bool rtr, uint32_t id, void *data, uint8_t len);
 
 #ifdef __cplusplus
 }
