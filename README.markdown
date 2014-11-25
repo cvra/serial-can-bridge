@@ -2,8 +2,6 @@
 
 Send and receive CAN frames over a serial connection.
 
-Data is packed using the serial-datagram module.
-
 ## Commands
 Commands are encoded with MessagePack.
 
@@ -25,11 +23,12 @@ The MCU just forwards every CAN frame it receives encoded as described below.
 
 CAN frames are encoded as following:
 
-    | Type | Explanation
---- | ---- | -----------------------------------
-1.  | bool | extended frame flag
-2.  | uint | CAN ID (11bit or 28bit)
-3.  | bin  | CAN frame data, length: 1 - 8 bytes
+Order | Type | Explanation
+----- | ---- | -----------------------------------
+1.    | bool | extended frame flag
+2.    | bool | remote transmission request flag
+3.    | uint | CAN ID (11bit or 28bit)
+4.    | bin  | CAN frame data, length: 1 - 8 bytes
 
 ### Message Pack CAN ID Filter List
 
