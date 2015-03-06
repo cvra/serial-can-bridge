@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <serializer/cmp/cmp.h>
+#include <cmp/cmp.h>
 
 #ifdef __cplusplus
 extern "C" {

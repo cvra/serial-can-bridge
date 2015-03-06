@@ -2,6 +2,7 @@ depends:
     - test-runner
     - serializer
     - serial-datagram
+    - cmp
 
 source:
     - can_frame_cmp.c

@@ -1,5 +1,5 @@
 #include <serializer/serialization.h>
-#include <cmp.h>
+#include <cmp/cmp.h>
 #include "can_frame_cmp.h"
 #include "can_interface.h"
 #include "serial_can_bridge.h"
