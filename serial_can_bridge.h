@@ -16,7 +16,7 @@ extern "C" {
  * @param [in] input input buffer.
  * @param [in] len lenght of input buffer.
  */
-void can_bridge_datagram_rcv_cb(const void *data, size_t len);
+void can_bridge_datagram_rcv_cb(const void *data, size_t len, void *arg);
 
 
 /** Writes an encoded CAN Frame to a buffer

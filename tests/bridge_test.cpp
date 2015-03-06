@@ -36,7 +36,7 @@ TEST(CANBridgeTestGroup, CanForwardCANFrame)
 
     size_t buf_len = serializer_written_bytes_count(&serializer);
 
-    can_bridge_datagram_rcv_cb(buffer, buf_len);
+    can_bridge_datagram_rcv_cb(buffer, buf_len, NULL);
 
     bool frame_received, ext, rtr;
     uint32_t id;

@@ -20,11 +20,12 @@ static bool can_send_cmp_frame(cmp_ctx_t *ctx)
     return true;
 }
 
-void can_bridge_datagram_rcv_cb(const void *data, size_t len)
+void can_bridge_datagram_rcv_cb(const void *data, size_t len, void *arg)
 {
     uint32_t cmd;
     serializer_t ser;
     cmp_ctx_t ctx;
+    (void) arg;
     serializer_init(&ser, (char *)data, len);
     serializer_cmp_ctx_factory(&ctx, &ser);
 
