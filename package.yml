@@ -2,10 +2,11 @@ depends:
     - test-runner
     - serializer
     - serial-datagram
+    - cmp_mem_access
     - cmp
 
 source:
-    - can_frame_cmp.c
+    - can_frame.c
     - serial_can_bridge.c
 
 tests:
