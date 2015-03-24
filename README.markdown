@@ -33,4 +33,17 @@ Order | Type | Explanation
 
 ### Message Pack CAN ID Filter List
 
-todo
+The filter list is a MessagePack array of at least one filter entry.
+One filter entry is composed of an ID with a corresponding mask and is encoded as a MessagePack array as following:
+
+Order | Type | Explanation
+----- | ---- | -----------------------------------
+1.    | bool | IDE extended frame id flag
+2.    | bool | RTR remote transmission request flag
+3.    | uint | CAN ID (11bit or 28bit)
+4.    | bool | mask: IDE
+5.    | bool | mask: RTR
+6.    | uint | mask: ID
+
+A mask bit set to 1 (or true) means the corresponding field has to match the given ID, 0 (or false) means the field doesn't matter.
+For a CAN frame to pass the filter it has to match at least one filter entry.
