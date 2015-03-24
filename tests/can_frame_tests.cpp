@@ -1,7 +1,7 @@
 #include <cstring>
 #include "CppUTest/TestHarness.h"
 #include "serializer/serialization.h"
-#include "../can_frame_cmp.h"
+#include "../can_frame.h"
 
 TEST_GROUP(CANFrameTestGroup)
 {
@@ -20,23 +20,19 @@ TEST_GROUP(CANFrameTestGroup)
 TEST(CANFrameTestGroup, CanWriteStdFrame)
 {
     bool success;
-    struct can_bridge_frame write = {
-        .ext = 0,
-        .rtr = 0,
+    struct can_frame write = {
         .dlc = 8,
-        .id.std = (1 << 11) - 1,
+        .id = (1 << 11) - 1,
         .data.u8 = {0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef}
     };
-    struct can_bridge_frame read;
+    struct can_frame read;
 
     can_frame_cmp_write(&context, &write);
 
     success = can_frame_cmp_read(&context, &read);
 
     CHECK_TRUE(success);
-    CHECK_EQUAL(write.ext, read.ext);
-    CHECK_EQUAL(write.rtr, read.rtr);
-    CHECK_EQUAL(write.id.std, read.id.std);
+    CHECK_EQUAL(write.id, read.id);
     CHECK_EQUAL(write.dlc, read.dlc);
     CHECK_EQUAL(0, memcmp(write.data.u8, read.data.u8, write.dlc));
 }
@@ -44,23 +40,19 @@ TEST(CANFrameTestGroup, CanWriteStdFrame)
 TEST(CANFrameTestGroup, CanWriteExtFrame)
 {
     bool success;
-    struct can_bridge_frame write = {
-        .ext = 1,
-        .rtr = 0,
+    struct can_frame write = {
         .dlc = 4,
-        .id.ext = CAN_FRAME_CMP_EXT_ID_MAX,
+        .id = ((1<<29) - 1) | CAN_FRAME_EXT_FLAG,
         .data.u8 = "xkcd"
     };
-    struct can_bridge_frame read;
+    struct can_frame read;
 
     can_frame_cmp_write(&context, &write);
 
     success = can_frame_cmp_read(&context, &read);
 
     CHECK_TRUE(success);
-    CHECK_EQUAL(write.ext, read.ext);
-    CHECK_EQUAL(write.rtr, read.rtr);
-    CHECK_EQUAL(write.id.ext, read.id.ext);
+    CHECK_EQUAL(write.id, read.id);
     CHECK_EQUAL(write.dlc, read.dlc);
     CHECK_EQUAL(0, memcmp(write.data.u8, read.data.u8, write.dlc));
 }
