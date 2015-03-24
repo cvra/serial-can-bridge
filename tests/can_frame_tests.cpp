@@ -1,19 +1,18 @@
 #include <cstring>
 #include "CppUTest/TestHarness.h"
-#include "serializer/serialization.h"
+#include "cmp_mem_access/cmp_mem_access.h"
 #include "../can_frame.h"
 
 TEST_GROUP(CANFrameTestGroup)
 {
     cmp_ctx_t context;
-    serializer_t serializer;
+    cmp_mem_access_t cma;
     char buffer[256];
 
     void setup()
     {
         memset(buffer, 0, sizeof buffer);
-        serializer_init(&serializer, buffer, sizeof buffer);
-        serializer_cmp_ctx_factory(&context, &serializer);
+        cmp_mem_access_init(&context, &cma, buffer, sizeof buffer);
     }
 };
 
@@ -28,7 +27,7 @@ TEST(CANFrameTestGroup, CanWriteStdFrame)
     struct can_frame read;
 
     can_frame_cmp_write(&context, &write);
-
+    cmp_mem_access_set_pos(&cma, 0);
     success = can_frame_cmp_read(&context, &read);
 
     CHECK_TRUE(success);
@@ -48,7 +47,7 @@ TEST(CANFrameTestGroup, CanWriteExtFrame)
     struct can_frame read;
 
     can_frame_cmp_write(&context, &write);
-
+    cmp_mem_access_set_pos(&cma, 0);
     success = can_frame_cmp_read(&context, &read);
 
     CHECK_TRUE(success);

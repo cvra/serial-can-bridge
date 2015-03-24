@@ -1,6 +1,5 @@
 depends:
     - test-runner
-    - serializer
     - serial-datagram
     - cmp_mem_access
     - cmp
