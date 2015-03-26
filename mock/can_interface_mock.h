@@ -8,7 +8,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-bool can_interface_mock_status(bool *ext, bool *rtr, uint32_t *id, uint8_t *data, uint8_t *len);
+bool can_interface_mock_status(uint32_t *id, uint8_t *data, uint8_t *len);
 
 #ifdef __cplusplus
 }

@@ -3,12 +3,13 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "can_frame.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void can_interface_send(bool ext, bool rtr, uint32_t id, void *data, uint8_t len);
+void can_interface_send(struct can_frame *frame);
 
 #ifdef __cplusplus
 }

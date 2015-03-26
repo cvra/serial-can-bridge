@@ -3,14 +3,14 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "can_frame_cmp.h"
-
-#define CMD_CAN_FRAME       0x00
-#define CMD_CFG_ID_FILTER   0x01
+#include "can_frame.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define CMD_CAN_FRAME       0x00
+#define CMD_CFG_ID_FILTER   0x01
 
 /** Callback function for received datagrams
  * @param [in] input input buffer.
@@ -26,8 +26,10 @@ void can_bridge_datagram_rcv_cb(const void *data, size_t len, void *arg);
  * @param [out] len length of written bytes.
  * @returns true if no error.
  */
-bool can_bridge_frame_write(struct can_bridge_frame *frame, uint8_t *outbuf,
-    size_t *len);
+bool can_bridge_frame_write(struct can_frame *frame, uint8_t *outbuf, size_t *len);
+
+/* Returns true if the id passes the filter. */
+bool can_bridge_id_passes_filter(uint32_t id);
 
 #ifdef __cplusplus
 }
