@@ -11,7 +11,6 @@ static void can_bridge_set_filter(cmp_ctx_t *ctx);
 
 static bool can_send_cmp_frame(cmp_ctx_t *ctx)
 {
-    bool rtr = false;
     struct can_frame frame;
 
     if (!can_frame_cmp_read(ctx, &frame)) {
