@@ -7,7 +7,9 @@ class Frame:
     """
 
     def __init__(self, id=0, data=None, extended=False,
-                 transmission_request=False):
+                 transmission_request=False,
+                 data_length=0):
+
         if data is None:
             data = bytes()
 
@@ -17,6 +19,11 @@ class Frame:
         self.id = id
 
         self.data = data
+        self.data_length = data_length
+
+        if len(self.data) > 0:
+            self.data_length = len(self.data)
+
         self.transmission_request = transmission_request
         self.extended = extended
 

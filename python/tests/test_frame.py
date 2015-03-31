@@ -29,6 +29,20 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         self.assertFalse(frame.extended)
         self.assertFalse(frame.transmission_request)
 
+    def test_can_provide_datalen(self):
+        """
+        Tests if we can set a data length.
+        """
+        frame = Frame(id=42, data_length=8)
+        self.assertEqual(frame.data_length, 8)
+
+    def test_datalen_auto(self):
+        """
+        Checks that the data length is correctly populated if we provide data.
+        """
+        frame = Frame(data=bytes(range(3)))
+        self.assertEqual(3, frame.data_length)
+
     def test_frame_encode_extended(self):
         """
         Tests if encoding of the extended flag works.
