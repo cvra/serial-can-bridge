@@ -1,9 +1,30 @@
 import msgpack
-from can import Frame
+
+
+class Frame:
+    """
+    A single CAN frame.
+    """
+
+    def __init__(self, id=0, data=None, extended=False,
+                 transmission_request=False):
+        if data is None:
+            data = bytes()
+
+        if len(data) > 8:
+            raise ValueError
+
+        self.id = id
+
+        self.data = data
+        self.transmission_request = transmission_request
+        self.extended = extended
+
 
 class CANBridgeCommand:
     SendFrame = 0
     SetIDFilter = 1
+
 
 def encode_frame_command(frame):
     """
@@ -13,6 +34,7 @@ def encode_frame_command(frame):
     command = packer.pack(CANBridgeCommand.SendFrame)
     command = command + encode_frame(frame)
     return command
+
 
 def encode_frame(frame):
     """
@@ -25,6 +47,7 @@ def encode_frame(frame):
     data += packer.pack(frame.data)
 
     return data
+
 
 def decode_frame(data):
     """
@@ -41,4 +64,3 @@ def decode_frame(data):
     result.data = unpacker.unpack()
 
     return result
-
