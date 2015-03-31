@@ -10,7 +10,10 @@ args = dict(
     author='CVRA',
     author_email='info@cvra.ch',
     url='https://github.com/cvra',
-    license='BSD'
+    license='BSD',
+    install_requires=[
+        'msgpack-python'
+        ]
 )
 
 setup(**args)
