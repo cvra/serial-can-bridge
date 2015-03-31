@@ -1,4 +1,5 @@
-from can_bridge.frame import Frame, encode_frame, decode_frame
+from can_bridge.frame import Frame
+import can_bridge.frame
 import unittest
 import msgpack
 
@@ -8,7 +9,7 @@ def encode_decode_frame(frame):
     Returns a list containing the decoded fields from the encoded frame.
     """
     a = msgpack.Unpacker()
-    a.feed(encode_frame(frame))
+    a.feed(can_bridge.frame.encode(frame))
 
     return list(a)
 
@@ -66,7 +67,7 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         """
 
         frame = Frame(data=bytes([1, 2, 3]))
-        data = encode_frame(frame)
+        data = can_bridge.frame.encode(frame)
         marker = 0xc4  # binary marker
         self.assertEqual(data[-4 - 1], marker)
         self.assertEqual(data[-4], len(frame.data))
@@ -83,10 +84,12 @@ class CanFrameDecodingTestCase(unittest.TestCase):
         """
         Checks that the extended flag can be correctly decoded.
         """
-        frame = decode_frame(encode_frame(Frame(extended=True)))
+        frame = can_bridge.frame.decode(
+            can_bridge.frame.encode(Frame(extended=True)))
         self.assertTrue(frame.extended)
 
-        frame = decode_frame(encode_frame(Frame(extended=False)))
+        frame = can_bridge.frame.decode(
+            can_bridge.frame.encode(Frame(extended=False)))
         self.assertFalse(frame.extended)
 
     def test_rtr_flag(self):
@@ -94,17 +97,19 @@ class CanFrameDecodingTestCase(unittest.TestCase):
         Checks that the Remote Transmission Request can be correctly
         decoded.
         """
-        frame = decode_frame(encode_frame(Frame(transmission_request=True)))
+        frame = can_bridge.frame.decode(
+            can_bridge.frame.encode(Frame(transmission_request=True)))
         self.assertTrue(frame.transmission_request)
 
-        frame = decode_frame(encode_frame(Frame(transmission_request=False)))
+        frame = can_bridge.frame.decode(
+            can_bridge.frame.encode(Frame(transmission_request=False)))
         self.assertFalse(frame.transmission_request)
 
     def test_frameid(self):
         """
         Checks that the frame ID is correctly decoded.
         """
-        frame = decode_frame(encode_frame(Frame(id=42)))
+        frame = can_bridge.frame.decode(can_bridge.frame.encode(Frame(id=42)))
         self.assertEqual(frame.id, 42)
 
     def test_data(self):
@@ -112,5 +117,6 @@ class CanFrameDecodingTestCase(unittest.TestCase):
         Checks that the data field is correctly decoded.
         """
         data = 'hello'.encode('ascii')
-        frame = decode_frame(encode_frame(Frame(data=data)))
+        frame = can_bridge.frame.decode(
+            can_bridge.frame.encode(Frame(data=data)))
         self.assertEqual(data, frame.data)

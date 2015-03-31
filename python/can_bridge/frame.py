@@ -36,7 +36,7 @@ def encode_frame_command(frame):
     return command
 
 
-def encode_frame(frame):
+def encode(frame):
     """
     Encodes the given frame to raw messagepack bytes.
     """
@@ -49,7 +49,7 @@ def encode_frame(frame):
     return data
 
 
-def decode_frame(data):
+def decode(data):
     """
     Decodes the given messagepack bytes to a Frame object.
     """
