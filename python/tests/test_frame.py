@@ -1,6 +1,7 @@
-from can_bridge.frame import *
+from can_bridge.frame import Frame, encode_frame, decode_frame
 import unittest
 import msgpack
+
 
 def encode_decode_frame(frame):
     """
@@ -16,6 +17,7 @@ class CanFrameEncodingTestCase(unittest.TestCase):
     """
     Testcase grouping all the functions relating to encoding CAN frames.
     """
+
     def test_frame_constructor(self):
         """
         Tests if we can instantiate a CAN Frame with default values.
@@ -38,7 +40,7 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         """
         Tests if encoding of the remote transmition request flag (RTR) works.
         """
-        frame = Frame(transmission_request = True)
+        frame = Frame(transmission_request=True)
         msg = encode_decode_frame(frame)
         self.assertEqual(True, msg[1])
 
@@ -54,20 +56,21 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         """
         Checks if encoding of data works properly.
         """
-        frame = Frame(data=bytes([1,2,3]))
+        frame = Frame(data=bytes([1, 2, 3]))
         msg = encode_decode_frame(frame)
-        self.assertEqual(bytes([1,2,3]), msg[3])
+        self.assertEqual(bytes([1, 2, 3]), msg[3])
 
     def test_frame_data_is_binary(self):
         """
         Checks if the encoded data is binary, not string.
         """
 
-        frame = Frame(data=bytes([1,2,3]))
+        frame = Frame(data=bytes([1, 2, 3]))
         data = encode_frame(frame)
-        marker = 0xc4 # binary marker
+        marker = 0xc4  # binary marker
         self.assertEqual(data[-4 - 1], marker)
         self.assertEqual(data[-4], len(frame.data))
+
 
 class CanFrameDecodingTestCase(unittest.TestCase):
     """
