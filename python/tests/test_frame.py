@@ -11,7 +11,7 @@ def encode_decode_frame(frame):
     a = msgpack.Unpacker()
     a.feed(can_bridge.frame.encode(frame))
 
-    return list(a)
+    return next(a)
 
 
 class CanFrameEncodingTestCase(unittest.TestCase):
@@ -67,13 +67,22 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         msg = encode_decode_frame(frame)
         self.assertEqual(42, msg[2])
 
+    def test_frame_encode_data_length(self):
+        """
+        Checks if we can encode the data length.
+        """
+        frame = Frame(data_length=3)
+        msg = encode_decode_frame(frame)
+        self.assertEqual(3, msg[3])
+
+
     def test_frame_encode_data(self):
         """
         Checks if encoding of data works properly.
         """
         frame = Frame(data=bytes([1, 2, 3]))
         msg = encode_decode_frame(frame)
-        self.assertEqual(bytes([1, 2, 3]), msg[3])
+        self.assertEqual(bytes([1, 2, 3]), msg[4])
 
     def test_frame_data_is_binary(self):
         """
@@ -83,7 +92,7 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         frame = Frame(data=bytes([1, 2, 3]))
         data = can_bridge.frame.encode(frame)
         marker = 0xc4  # binary marker
-        self.assertEqual(data[-4 - 1], marker)
+        self.assertEqual(data[-5], marker)
         self.assertEqual(data[-4], len(frame.data))
 
 

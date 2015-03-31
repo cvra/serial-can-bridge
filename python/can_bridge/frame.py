@@ -33,26 +33,21 @@ def encode(frame):
     Encodes the given frame to raw messagepack bytes.
     """
     packer = msgpack.Packer(use_bin_type=True)
-    data = packer.pack(frame.extended)
-    data = data + packer.pack(frame.transmission_request)
-    data = data + packer.pack(frame.id)
-    data += packer.pack(frame.data)
-
-    return data
+    data = [frame.extended, frame.transmission_request, frame.id, frame.data_length, frame.data]
+    return packer.pack(data)
 
 
 def decode(data):
     """
     Decodes the given messagepack bytes to a Frame object.
     """
-    unpacker = msgpack.Unpacker()
     result = Frame()
+    data = msgpack.unpackb(data)
 
-    unpacker.feed(data)
-
-    result.extended = unpacker.unpack()
-    result.transmission_request = unpacker.unpack()
-    result.id = unpacker.unpack()
-    result.data = unpacker.unpack()
+    result.extended = data[0]
+    result.transmission_request = data[1]
+    result.id = data[2]
+    result.data_length = data[4]
+    result.data = data[4]
 
     return result
