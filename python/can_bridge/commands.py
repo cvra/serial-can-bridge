@@ -17,7 +17,7 @@ def encode_frame_write(frame):
     return command
 
 
-def encode_id_filter_set(extended_frame=None, rtr_frame=None, id=0,
+def encode_id_filter_set(extended_frame=None, rtr_frame=None, id=None,
                          id_mask=None):
     """
     Encodes a command to setup the CAN frame filter.
@@ -31,10 +31,13 @@ def encode_id_filter_set(extended_frame=None, rtr_frame=None, id=0,
     """
 
     if id_mask is None:
-        if id == 0:
+        if id is None:
             id_mask = 0
         else:  # If we give a specific ID, all bits must match
             id_mask = (1 << 29) - 1
+
+    if id is None:
+        id = 0
 
     args = [False, False, id, False, False, id_mask]
 

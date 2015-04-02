@@ -53,11 +53,22 @@ class IdFilterTestCase(unittest.TestCase):
 
     def test_single_id(self):
         """
-        When giving an ID and no mask we should filter to allow only that single ID.
+        When giving an ID and no mask we should filter to allow only that
+        single ID.
         """
         ALL_BITS_MASK = (1 << 29) - 1
         data = can_bridge.commands.encode_id_filter_set(id=0x80)
         _, args = unpackb(data)
         expected_args = [False, False, 0x80, False, False, ALL_BITS_MASK]
+        self.assertEqual(args, expected_args)
+
+    def test_single_id_zero(self):
+        """
+        ID0 is a valid CAN frame ID. We should handle it too.
+        """
+        ALL_BITS_MASK = (1 << 29) - 1
+        data = can_bridge.commands.encode_id_filter_set(id=0)
+        _, args = unpackb(data)
+        expected_args = [False, False, 0, False, False, ALL_BITS_MASK]
         self.assertEqual(args, expected_args)
 
