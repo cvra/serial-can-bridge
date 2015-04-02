@@ -51,3 +51,13 @@ class IdFilterTestCase(unittest.TestCase):
         expected_args = [False, False, 0x80, False, False, 0xff]
         self.assertEqual(args, expected_args)
 
+    def test_single_id(self):
+        """
+        When giving an ID and no mask we should filter to allow only that single ID.
+        """
+        ALL_BITS_MASK = (1 << 29) - 1
+        data = can_bridge.commands.encode_id_filter_set(id=0x80)
+        _, args = unpackb(data)
+        expected_args = [False, False, 0x80, False, False, ALL_BITS_MASK]
+        self.assertEqual(args, expected_args)
+

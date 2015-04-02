@@ -16,14 +16,26 @@ def encode_frame_write(frame):
     command = command + can_bridge.frame.encode(frame)
     return command
 
-def encode_id_filter_set(extended_frame=None, rtr_frame=None, id=0, id_mask=0):
+
+def encode_id_filter_set(extended_frame=None, rtr_frame=None, id=0,
+                         id_mask=None):
     """
     Encodes a command to setup the CAN frame filter.
 
     A None value for extended_frame and rtr_frame means that we don't care
     about those values. For the id, a '1' bit in id_mask means that the filter
     is enabled on that bit.
+
+    A None value for id_mask means that only this specific ID will be accepted.
+    Otherwise the bits marked as 1 in id_mask must be correct in ID.
     """
+
+    if id_mask is None:
+        if id == 0:
+            id_mask = 0
+        else:  # If we give a specific ID, all bits must match
+            id_mask = (1 << 29) - 1
+
     args = [False, False, id, False, False, id_mask]
 
     if extended_frame is not None:
