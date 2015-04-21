@@ -12,6 +12,9 @@ extern "C" {
 #define CMD_CAN_FRAME       0x00
 #define CMD_CFG_ID_FILTER   0x01
 
+extern uint32_t can_bridge_filter_id;
+extern uint32_t can_bridge_filter_mask;
+
 /** Callback function for received datagrams
  * @param [in] input input buffer.
  * @param [in] len lenght of input buffer.
