@@ -27,7 +27,7 @@ Order | Type | Explanation
 ----- | ---- | -----------------------------------
 1.    | bool | IDE extended frame id flag
 2.    | bool | RTR remote transmission request flag
-3.    | uint | CAN ID (11bit or 28bit)
+3.    | uint | CAN ID (11bit or 29bit)
 4.    | uint | DLC data length code, values: 0 - 8
 5.    | bin  | CAN frame data, length: 0 - 8 bytes
 
@@ -40,7 +40,7 @@ Order | Type | Explanation
 ----- | ---- | -----------------------------------
 1.    | bool | IDE extended frame id flag
 2.    | bool | RTR remote transmission request flag
-3.    | uint | CAN ID (11bit or 28bit)
+3.    | uint | CAN ID (11bit or 29bit)
 4.    | bool | mask: IDE
 5.    | bool | mask: RTR
 6.    | uint | mask: ID
