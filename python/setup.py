@@ -4,7 +4,7 @@ from setuptools import setup
 
 args = dict(
     name='serial_can_bridge',
-    version='0.1',
+    version='0.2',
     description='Implements a MessagePack API for our CAN-UART bridge.',
     packages=['can_bridge'],
     author='CVRA',
