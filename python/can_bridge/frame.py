@@ -27,6 +27,9 @@ class Frame:
         self.transmission_request = transmission_request
         self.extended = extended
 
+    def __eq__(self, other):
+        return self.id == other.id and self.data == other.data
+
 
 def encode(frame):
     """

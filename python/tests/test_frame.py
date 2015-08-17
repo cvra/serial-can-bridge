@@ -95,6 +95,25 @@ class CanFrameEncodingTestCase(unittest.TestCase):
         self.assertEqual(data[-5], marker)
         self.assertEqual(data[-4], len(frame.data))
 
+    def test_frames_are_equal(self):
+        a = Frame(data=bytes([1, 2, 3]), id=42)
+        b = Frame(data=bytes([1, 2, 3]), id=42)
+        self.assertFalse(a is b)
+        self.assertTrue(a == b)
+
+    def test_frames_not_equal_if_different_id(self):
+        a = Frame(id=42)
+        b = Frame(id=43)
+        self.assertFalse(a == b)
+
+    def test_frames_not_equal_if_different_data(self):
+        a = Frame(data=bytes([10, 20]))
+        b = Frame(data=bytes([1, 2]))
+        self.assertFalse(a == b)
+
+
+
+
 
 class CanFrameDecodingTestCase(unittest.TestCase):
     """
